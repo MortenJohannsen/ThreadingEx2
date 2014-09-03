@@ -41,7 +41,7 @@ namespace FindSmallest
             List<int> list = new List<int>();
 
 
-            //Parallel -- virker ikke endnu --
+            //Parallel -- Does not work at the moment -- Syntax is fully flawed :)
             Parallel.ForEach(foreach (int[] data in Data)
             {
                 t = new Thread(() =>
