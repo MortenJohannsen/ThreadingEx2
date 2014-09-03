@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace FindSmallest
 {
@@ -39,7 +40,9 @@ namespace FindSmallest
             Thread t;
             List<int> list = new List<int>();
 
-            foreach (int[] data in Data)
+
+            //Parallel -- virker ikke endnu --
+            Parallel.ForEach(foreach (int[] data in Data)
             {
                 t = new Thread(() =>
                 {
@@ -49,15 +52,17 @@ namespace FindSmallest
                 });
                 t.Start();
 
-                //Wait for all threads to complete
-                t.Join();
-
-                //Convert List to Array, find the smallest number in array and print to screen
-                int[] array = list.ToArray();
-                int smallestofthesmallest = FindSmallest(array);
-                Console.WriteLine("The Smallest of the Smallest is: " + smallestofthesmallest);
+                
 
             }
+            
+            //Wait for all threads to complete
+            //t.Join();
+
+            //Convert List to Array, find the smallest number in array and print to screen
+            int[] array = list.ToArray();
+            int smallestofthesmallest = FindSmallest(array);
+            Console.WriteLine("The Smallest of the Smallest is: " + smallestofthesmallest);
         }
     }
 }
