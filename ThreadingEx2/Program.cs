@@ -52,11 +52,9 @@ namespace FindSmallest
                 //Wait for all threads to complete
                 t.Join();
 
-                //Convert List to Array
+                //Convert List to Array, find the smallest number in array and print to screen
                 int[] array = list.ToArray();
-
                 int smallestofthesmallest = FindSmallest(array);
-
                 Console.WriteLine("The Smallest of the Smallest is: " + smallestofthesmallest);
 
             }
