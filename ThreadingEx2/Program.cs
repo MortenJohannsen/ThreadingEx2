@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace FindSmallest
@@ -36,14 +37,28 @@ namespace FindSmallest
         static void Main()
         {
             Thread t;
+            List<int> list = new List<int>();
+
             foreach (int[] data in Data)
             {
                 t = new Thread(() =>
                 {
                     int smallest = FindSmallest(data);
                     Console.WriteLine("\t" + String.Join(", ", data) + "\n-> " + smallest);
+                    list.Add(smallest);
                 });
                 t.Start();
+
+                //Wait for all threads to complete
+                t.Join();
+
+                //Convert List to Array
+                int[] array = list.ToArray();
+
+                int smallestofthesmallest = FindSmallest(array);
+
+                Console.WriteLine("The Smallest of the Smallest is: " + smallestofthesmallest);
+
             }
         }
     }
