@@ -35,34 +35,98 @@ namespace FindSmallest
         }
 
 
+        /*
+         * This Main is running the tasks right away after creating them, adding them to a list and then awaits their completion.
+         */
+        //static void Main()
+        //{
+            
+        //    List<int> list = new List<int>();
+        //    List<Task> tlist = new List<Task>();
+
+            
+        //    //Parallel.ForEach()???
+
+
+        //    foreach (int[] data in Data)
+        //    {
+        //        //Tasks are started at this point
+        //        Task t = Task.Run(() =>
+        //        {
+        //            int smallest = FindSmallest(data);
+        //            Console.WriteLine("\t" + String.Join(", ", data) + "\n-> " + smallest);
+        //            list.Add(smallest);
+        //        });
+                
+        //        //Add task to list
+        //        tlist.Add(t);
+                
+        //    }
+
+        //    //Wait for all task added to the list to complete
+        //    Task.WaitAll(tlist.ToArray());
+        //    foreach (Task t in tlist)
+        //    {
+        //        Console.WriteLine(t.Id + " -- " + t.Status);
+        //    }
+            
+
+        //    //Convert List to Array, find the smallest number in array and print to screen
+        //    int[] array = list.ToArray();
+        //    int smallestofthesmallest = FindSmallest(array);
+        //    Console.WriteLine("The Smallest of the Smallest is: " + smallestofthesmallest);
+
+        //} //End of Main()
+
+        /*
+         * This Main is creating the tasks and adds them to a list - then when all tasks are added, it runs a foreach loop to start
+         * the tasks...
+         */
         static void Main()
         {
-            Thread t;
+
             List<int> list = new List<int>();
+            List<Task> tlist = new List<Task>();
 
 
-            //Parallel -- Does not work at the moment -- Syntax is fully flawed :)
-            Parallel.ForEach(foreach (int[] data in Data)
+            //Parallel.ForEach()???
+
+
+            foreach (int[] data in Data)
             {
-                t = new Thread(() =>
+                Task t = new Task(() =>
                 {
                     int smallest = FindSmallest(data);
                     Console.WriteLine("\t" + String.Join(", ", data) + "\n-> " + smallest);
                     list.Add(smallest);
                 });
-                t.Start();
 
-                
+                //Add task to list
+                tlist.Add(t);
 
             }
-            
-            //Wait for all threads to complete
-            //t.Join();
+
+            //Tasks is started at this point
+            foreach (Task t in tlist)
+            {
+                t.Start();
+            }
+
+            //Wait for all task added to the list to complete
+            Task.WaitAll(tlist.ToArray());
+            foreach (Task t in tlist)
+            {
+                Console.WriteLine(t.Id + " -- " + t.Status);
+            }
+
 
             //Convert List to Array, find the smallest number in array and print to screen
             int[] array = list.ToArray();
             int smallestofthesmallest = FindSmallest(array);
             Console.WriteLine("The Smallest of the Smallest is: " + smallestofthesmallest);
-        }
-    }
-}
+
+        } //End of Main()
+
+
+    } //End of class
+} // End of namespace
