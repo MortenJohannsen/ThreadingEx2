@@ -82,11 +82,57 @@ namespace FindSmallest
          * This Main is creating the tasks and adds them to a list - then when all tasks are added, it runs a foreach loop to start
          * the tasks...
          */
+        //static void Main()
+        //{
+
+        //    List<int> list = new List<int>();
+        //    List<Task> tlist = new List<Task>();
+
+
+        //    //Parallel.ForEach()???
+
+
+        //    foreach (int[] data in Data)
+        //    {
+        //        Task t = new Task(() =>
+        //        {
+        //            int smallest = FindSmallest(data);
+        //            Console.WriteLine("\t" + String.Join(", ", data) + "\n-> " + smallest);
+        //            list.Add(smallest);
+        //        });
+               
+        //        //Add task to list
+        //        tlist.Add(t);
+
+        //    }
+
+        //    //Tasks is started at this point
+        //    foreach (Task t in tlist)
+        //    {
+        //        t.Start();
+        //    }
+
+        //    //Wait for all task added to the list to complete
+        //    Task.WaitAll(tlist.ToArray());
+        //    foreach (Task t in tlist)
+        //    {
+        //        Console.WriteLine(t.Id + " -- " + t.Status);
+        //    }
+
+
+        //    //Convert List to Array, find the smallest number in array and print to screen
+        //    int[] array = list.ToArray();
+        //    int smallestofthesmallest = FindSmallest(array);
+        //    Console.WriteLine("The Smallest of the Smallest is: " + smallestofthesmallest);
+
+        //} //End of Main()
+
+
         static void Main()
         {
 
             List<int> list = new List<int>();
-            List<Task> tlist = new List<Task>();
+            List<Task<int>> tlist = new List<Task<int>>();
 
 
             //Parallel.ForEach()???
@@ -94,29 +140,31 @@ namespace FindSmallest
 
             foreach (int[] data in Data)
             {
-                Task t = new Task(() =>
+                Task<int> t = new Task<int>(() =>
                 {
                     int smallest = FindSmallest(data);
                     Console.WriteLine("\t" + String.Join(", ", data) + "\n-> " + smallest);
-                    list.Add(smallest);
+                    return smallest;
                 });
-
+                
                 //Add task to list
                 tlist.Add(t);
 
             }
 
             //Tasks is started at this point
-            foreach (Task t in tlist)
+            foreach (Task<int> t in tlist)
             {
                 t.Start();
             }
 
+
             //Wait for all task added to the list to complete
             Task.WaitAll(tlist.ToArray());
-            foreach (Task t in tlist)
+            foreach (Task<int> t in tlist)
             {
-                Console.WriteLine(t.Id + " -- " + t.Status);
+                Console.WriteLine(t.Id + " -- " + t.Status + " -- Result: " + t.Result);
+                list.Add(t.Result);
             }
 
 
