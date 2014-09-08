@@ -133,7 +133,7 @@ namespace FindSmallest
 
             List<int> list = new List<int>();
             List<Task<int>> tlist = new List<Task<int>>();
-
+         
 
             //Parallel.ForEach()???
 
@@ -151,16 +151,24 @@ namespace FindSmallest
                 tlist.Add(t);
 
             }
-
+            
+            
+            DateTime start = DateTime.Now;
+            
             //Tasks is started at this point
             foreach (Task<int> t in tlist)
             {
+                
                 t.Start();
             }
 
 
             //Wait for all task added to the list to complete
             Task.WaitAll(tlist.ToArray());
+
+            DateTime slut = DateTime.Now;
+            TimeSpan total = slut - start;
+
             foreach (Task<int> t in tlist)
             {
                 Console.WriteLine(t.Id + " -- " + t.Status + " -- Result: " + t.Result);
@@ -172,6 +180,8 @@ namespace FindSmallest
             int[] array = list.ToArray();
             int smallestofthesmallest = FindSmallest(array);
             Console.WriteLine("The Smallest of the Smallest is: " + smallestofthesmallest);
+
+            Console.WriteLine("\n" + "Time used to complete tasks: " + total);
 
         } //End of Main()
 
